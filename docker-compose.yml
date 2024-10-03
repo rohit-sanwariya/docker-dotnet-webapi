@@ -1,0 +1,21 @@
+services:
+  docker-dotnet-webapi:
+    image: ${DOCKER_REGISTRY-}dockerdotnetwebapi
+    build:
+      context: .
+      dockerfile: docker-dotnet-webapi/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  docker-dotnet-db:
+    image: postgres:latest
+    container_name: docker-dotnet-db
+    environment:
+      - POSTGRES_DB=products
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/docker-dotnet-db:/var/lib/postgresql/data  # Corrected volume path
+    ports:
+      - "5432:5432"
